@@ -1,20 +1,30 @@
 const Boom = require("@hapi/boom");
 const Bcrypt = require("bcrypt");
+const fs = require("fs");
+const path = require("path");
 const userService = require("../services/user");
 const { MESSAGES, STATUS } = require("../utils/constant");
+
+function deleteFile(image) {
+  const imagePath = path.join(__dirname, "../public/userImages/");
+  fs.unlinkSync(imagePath + image);
+}
 
 const createUserHandler = async (req, res) => {
   try {
     const data = req.body;
+    data.image = req.file ? req.file.filename : "";
 
     const userObj = await userService.getOneUserByFilter({
       email: data.email,
     });
 
-    if (userObj)
+    if (userObj) {
+      data.image ? deleteFile(data.image) : "";
       return res
         .status(422)
         .send(Boom.badData(MESSAGES.EMAIL_ALREADY_EXIST).output.payload);
+    }
 
     // Store hash password
     const hashPassword = await Bcrypt.hash(data.password, 10);
@@ -30,8 +40,10 @@ const createUserHandler = async (req, res) => {
       statusCode: 201,
       message: MESSAGES.CREATE_SUCCESSFULLY,
       data: user._id,
+      fullData: user,
     });
   } catch (error) {
+    req.file ? deleteFile(req.file.filename) : "";
     console.log("Error inside createUserHandler: ", error.message);
     return Boom.badImplementation(error.message);
   }

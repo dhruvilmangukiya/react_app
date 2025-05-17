@@ -78,7 +78,7 @@ const MainLayout = () => {
 
         {/* Footer */}
         <Footer className="text-center">
-          ©2024 Created by Dhruvil Mangukiya
+          ©2025 Created by Dhruvil Mangukiya
         </Footer>
       </Layout>
     </Layout>

@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 const router = require("./router/index");
 
 const app = express();
@@ -15,6 +16,8 @@ app.use(
     credentials: true,
   })
 );
+
+app.use("/public", express.static(path.join(__dirname, "public")));
 
 // Middleware
 app.use(express.json());

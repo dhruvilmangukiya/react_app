@@ -15,6 +15,8 @@ import PrivateRoute from "./routes/PrivateRoute";
 const Login = lazy(() => import("./pages/Login"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const MainLayout = lazy(() => import("./pages/MainLayout"));
+const Category = lazy(() => import("./pages/Category"));
+const Product = lazy(() => import("./pages/Product"));
 
 function App() {
   const token = getGlobalItem("token");
@@ -38,6 +40,8 @@ function App() {
             <Route element={<PrivateRoute />}>
               <Route path="/" element={<MainLayout />}>
                 <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/category" element={<Category />} />
+                <Route path="/product" element={<Product />} />
               </Route>
             </Route>
 

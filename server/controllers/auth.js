@@ -25,7 +25,13 @@ const loginHandler = async (req, res) => {
 
     // Generate token
     const token = jwt.sign(
-      { user: { id: user._id, email: user.email, role: user.role } },
+      {
+        user: {
+          id: user._id,
+          email: user.email,
+          role: user.role,
+        },
+      },
       JWT_CONFIG.JWT_SECRET,
       { expiresIn: JWT_CONFIG.ACCESS_TOKEN_LIFE }
     );
